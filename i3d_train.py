@@ -77,11 +77,12 @@ model_checkpoint = CustomModelCheckpoint(model, './weights_'+model_name+'/epoch_
 #model_checkpoint = ModelCheckpoint('./weights/weights.{epoch:02d}-{val_loss:.2f}.hdf5')
 
 train_generator = DataLoader_video_train('/data/stars/user/sdas/smarthomes_data/splits/train_CS.txt', batch_size = batch_size)
-#val_generator = DataLoader_video_train('/data/stars/user/sdas/NTU_RGB/splits/imp_files/validation_new.txt', batch_size = batch_size)
+val_generator = DataLoader_video_train('/data/stars/user/sdas/smarthomes_data/splits/validation_CS.txt', batch_size = batch_size)
 test_generator = DataLoader_video_test('/data/stars/user/sdas/smarthomes_data/splits/test_CS.txt', batch_size = batch_size)
 
 parallel_model.fit_generator(
-    generator = train_generator, 
+    generator = train_generator,
+    validation_data=val_generator,
     epochs = epochs, 
     callbacks = [csvlogger, reduce_lr, model_checkpoint], 
     max_queue_size = 48,
