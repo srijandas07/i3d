@@ -17,7 +17,7 @@ import sys
 from multiprocessing import cpu_count
 import numpy as np
 import glob
-from skimage.io import imread
+#from skimage.io import imread
 import cv2
 from Smarthome_Loader import *
 
