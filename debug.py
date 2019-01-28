@@ -10,7 +10,7 @@ from keras.utils import to_categorical
 from keras.optimizers import SGD
 from i3d_inception import Inception_Inflated3d, conv3d_bn
 from keras.callbacks import ReduceLROnPlateau, ModelCheckpoint, CSVLogger, Callback
-from keras.utils import Sequence, multi_gpu_model
+#from keras.utils import Sequence, multi_gpu_model
 
 import random
 import sys
