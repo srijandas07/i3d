@@ -19,7 +19,7 @@ import numpy as np
 import glob
 from skimage.io import imread
 import cv2
-from NTU_Loader import *
+from Smarthome_Loader import *
 
 epochs = int(sys.argv[1])
 model_name = sys.argv[2]
@@ -31,7 +31,7 @@ class i3d_modified:
     def __init__(self, weights = 'rgb_imagenet_and_kinetics'):
         self.model = Inception_Inflated3d(include_top = True, weights= weights)
         
-    def i3d_flattened(self, num_classes = 60):
+    def i3d_flattened(self, num_classes = 35):
         i3d = Model(inputs = self.model.input, outputs = self.model.get_layer(index=-4).output)
         x = conv3d_bn(i3d.output, num_classes, 1, 1, 1, padding='same', use_bias=True, use_activation_fn=False, use_bn=False, name='Conv3d_6a_1x1')
         num_frames_remaining = int(x.shape[1])
