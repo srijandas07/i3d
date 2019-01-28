@@ -14,13 +14,11 @@ class DataLoader_video_train(Sequence):
         self.batch_size = batch_size
         #
         self.path = '/data/stars/user/rdai/smarthomes/smarthome_clipped_frames/'
-
         self.files = [i.strip() for i in open(path1).readlines()]
         #
         self.stack_size = 64    
         #
         self.num_classes = 35
-
         self.stride = 2
 
     def __len__(self):
@@ -39,8 +37,10 @@ class DataLoader_video_train(Sequence):
         label=name_str[0]
         #y_train = np.array([int(i[-3:]) for i in batch]) - 1
         y_train = np.array([_name_to_int(label) for i in batch]) - 1
+        print(y_train)
         y_train = to_categorical(y_train, num_classes = self.num_classes)
-
+        #
+        print(y_train)
         return x_train, y_train
 
     def _get_video(self, vid_name):
