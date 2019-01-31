@@ -10,11 +10,12 @@ import cv2
 import time
 
 class DataLoader_video_train(Sequence):
-    def __init__(self, path1, batch_size = 4):
+    def __init__(self, path1, version, batch_size = 4):
         self.batch_size = batch_size
         #
-        self.path = '/data/stars/user/rdai/smarthomes/smarthome_clipped_frames/'
-
+        self.version = version
+        self.path = '/data/stars/user/rdai/smarthomes/'+self.version+'/'
+        
         self.files = [i.strip() for i in open(path1).readlines()]
         #
         self.stack_size = 64    
@@ -148,10 +149,11 @@ class DataLoader_video_train(Sequence):
 
 
 class DataLoader_video_test(Sequence):
-    def __init__(self, path1, batch_size = 4):
+    def __init__(self, path1, version, batch_size = 4):
         self.batch_size = batch_size
         #
-        self.path = '/data/stars/user/rdai/smarthomes/smarthome_clipped_frames/'
+	self.version = version
+        self.path = '/data/stars/user/rdai/smarthomes/'+self.version+'/'
         
         self.files = [i.strip() for i in open(path1).readlines()]
         self.stack_size = 64
@@ -238,14 +240,14 @@ class DataLoader_video_test(Sequence):
 
     def __getitem__(self, idx):
         batch = self.files[idx * self.batch_size : (idx + 1) * self.batch_size]
-        x_train = [self._get_video(i) for i in (batch * 5)]
+        x_train = [self._get_video(i) for i in (batch)]
         batch = [os.path.splitext(i)[0] for i in batch]
         x_train = np.array(x_train, np.float32)
         x_train /= 127.5
         x_train -= 1
         #
         #y_train = np.array([int(i[-3:]) for i in (batch * 5)]) - 1
-        y_train = np.array([int(self._name_to_int(i.split('_')[0])) for i in (batch * 5)]) - 1
+        y_train = np.array([int(self._name_to_int(i.split('_')[0])) for i in (batch)]) - 1
         y_train = to_categorical(y_train, num_classes = self.num_classes)
 
         return x_train, y_train
