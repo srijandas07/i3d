@@ -79,12 +79,16 @@ predictions = Dense(num_classes, activation='softmax', name='softmax'+'second')(
 model = Model(inputs=model_branch.input, outputs=predictions, name = 'i3d_nonlocal')
 optim = SGD(lr = 0.01, momentum = 0.9)
 model.compile(loss = 'categorical_crossentropy', optimizer = optim, metrics = ['accuracy'])
+#change
+#for l_m, l_lh in zip(model.layers[-5: -4], model_branch.layers[-5: -4]):
+#    l_m.set_weights(l_lh.get_weights())
+#    l_m.trainable = True
 
 #model = load_model("../weights3/epoch11.hdf5")
 # Callbacks
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor = 0.1, patience = 10)
 #filepath = '../weights3/weights.{epoch:04d}-{val_loss:.2f}.hdf5'
-csvlogger = CSVLogger(model_name+'_ntu.csv')
+csvlogger = CSVLogger(model_name+'_smarthome.csv')
 
 parallel_model = multi_gpu_model(model, gpus=4)
 parallel_model.compile(loss = 'categorical_crossentropy', optimizer = optim, metrics = ['accuracy'])
@@ -104,6 +108,8 @@ parallel_model.fit_generator(
     validation_data=val_generator,
     max_queue_size = 48,
     workers = cpu_count() - 2,
+    #change
+    #use_multiprocessing = False,
     use_multiprocessing = True,
 )
 
