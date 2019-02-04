@@ -78,9 +78,6 @@ predictions = Dense(num_classes, activation='softmax', name='softmax'+'second')(
 model = Model(inputs=model_branch.input, outputs=predictions, name = 'i3d_nonlocal')
 optim = SGD(lr = 0.01, momentum = 0.9)
 model.compile(loss = 'categorical_crossentropy', optimizer = optim, metrics = ['accuracy'])
-for l_m, l_lh in zip(model.layers[-5: -4], model_branch.layers[-5: -4]):
-    l_m.set_weights(l_lh.get_weights())
-    l_m.trainable = True
 
 #model = load_model("../weights3/epoch11.hdf5")
 # Callbacks
