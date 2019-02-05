@@ -219,4 +219,3 @@ class DataLoader_video_test(Sequence):
 
     def on_epoch_end(self):
         shuffle(self.files)
-
